@@ -128,7 +128,7 @@ void *threadpool_thread(void *threadpool)
     pthread_exit(NULL);
 }
 
-void *adjust_thread(void *threadpool)
+void *threadpool_adjust(void *threadpool)
 {
     int i;
     threadpool_t *pool = (threadpool_t *)threadpool;
@@ -355,7 +355,7 @@ threadpool_t *threadpool_create(int min_thr_num, int max_thr_num, int queue_max_
             pthread_create(&(pool->threads[i]), NULL, threadpool_thread, (void *)pool);
             printf("start thread 0x%x...\n", (unsigned int)pool->threads[i]);
         }
-        pthread_create(&(pool->adjust_tid), NULL, adjust_thread, (void *)pool);
+        pthread_create(&(pool->adjust_tid), NULL, threadpool_adjust, (void *)pool);
 
         return pool;
 
