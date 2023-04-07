@@ -46,9 +46,10 @@ int main(int argc, char *argv[])
     struct epoll_event events[MAX_EVENTS + 1];
 
     int i;
-    int checkpos = 0;
+    // int checkpos = 0;
     while (1)
     {
+        /*
         // 超时设置
         long now = time(NULL);
         for (i = 0; i < 100; i++)
@@ -66,6 +67,7 @@ int main(int argc, char *argv[])
                 event_del(g_efd, &g_myevents[checkpos]);
             }
         }
+        */
         // 调用eppoll_wait等待接入的客户端事件,epoll_wait传出的是满足监听条件的那些fd的struct epoll_event类型
         int nfd = epoll_wait(g_efd, events, MAX_EVENTS + 1, 0);
 
@@ -80,13 +82,16 @@ int main(int argc, char *argv[])
             // 这里epoll_wait返回的时候，同样会返回对应fd的myevents_t类型的指针
             struct myevent_t *ev = (struct myevent_t *)events[i].data.ptr;
 
-            // 如果监听的是读事件，并返回的是读事件,加回调函数的判断是因为读事件有连接事件和IO事件
-            // 此线程是负责处理IO的
+            // 如果监听的是读事件，并返回的是读事件
             if ((events[i].events & EPOLLIN) && (ev->events & EPOLLIN))
                 threadpool_add(thp, process, (void *)ev);
-            // 如果监听的是写事件，并返回的是写事件
+            // 如果监听的是写事件，改回读事件
             else if ((events[i].events & EPOLLOUT) && (ev->events & EPOLLOUT))
-                threadpool_add(thp, process, (void *)ev);
+            {
+                event_set(ev, ev->fd, event_recv_data, ev); // 将该fd的回调函数改为recvdata
+                event_add(g_efd, EPOLLIN | EPOLLET, ev);    // 重新添加到红黑树上，设为监听读事件
+                //  threadpool_add(thp, process, (void *)ev);// 如果监听的是写事件，并返回的是写事件
+            }
         }
     }
     // 回收从线程 防止僵尸线程

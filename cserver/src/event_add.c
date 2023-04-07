@@ -13,8 +13,10 @@ void event_add(int efd, int events, struct myevent_t *ev)
         ev->status = 1;
     }
     if (epoll_ctl(efd, op, ev->fd, &epv) < 0) // 添加一个节点
-        printf("event add failed [fd=%d],events[%d]\n", ev->fd, events);
+        ;
+    // printf("event add failed [fd=%d],events[%d]\n", ev->fd, events);
     else
-        printf("event add OK [fd=%d],events[%0X]\n", ev->fd, events);
+        ;
+    // printf("event add OK [fd=%d],events[%0X]\n", ev->fd, events);
     return;
 }

@@ -4,10 +4,12 @@
 #include <sys/stat.h>
 #include "epollheap.h"
 
-void http_request(int cfd, const char *file, void *arg);
+void http_response(int cfd, char *file, void *arg);
 
 int http_get_line(int cfd, char *buf, int size);
 
-const char *http_get_type(int fd, char *type);
+const char *http_get_type(const char *file);
+
+int http_send_file(int cfd, const char *file);
 
 #endif
