@@ -1,7 +1,8 @@
+/*
 #include "epollheap.h"
 
 // 线程回调函数
-void *process(void *arg)
+void *slave_process(void *arg)
 {
     struct myevent_t *ev = (struct myevent_t *)arg;
     // printf("thread 0x%x working on task %d\n", (unsigned int)pthread_self(), ev->fd);
@@ -10,3 +11,4 @@ void *process(void *arg)
 
     return NULL;
 }
+*/

@@ -12,7 +12,6 @@ void *threadpool_thread(void *threadpool)
 
         while ((pool->queue_size == 0) && (!pool->shutdown)) // 如果没任务
         {
-            printf("thread 0x%x is waiting\n\n", (unsigned int)pthread_self());
             pthread_cond_wait(&(pool->queue_not_empty), &(pool->lock)); // 阻塞等待signal
             while (pool->queue_size == 0)
             { // 此处的while用来处理虚假唤醒，如果用if，可能存在没有资源可用的情况。
@@ -27,7 +26,6 @@ void *threadpool_thread(void *threadpool)
                 if (pool->live_thr_num > pool->min_thr_num)
                 {
                     int i;
-                    printf("thread 0x%x is exiting\n", (unsigned int)pthread_self());
                     for (i = 0; i < pool->live_thr_num; i++)
                         if (pool->threads[i] == pthread_self())
                             pool->free_exit_thr_index[i] = i; // 更新free_exit
@@ -60,16 +58,12 @@ void *threadpool_thread(void *threadpool)
         pthread_mutex_unlock(&(pool->lock));
 
         // 执行任务
-        printf("==================================\n");
-        printf("thread 0x%x start working\n", (unsigned int)pthread_self());
         pthread_mutex_lock(&(pool->thread_counter));
         pool->busy_thr_num++;
         pthread_mutex_unlock(&(pool->thread_counter));
         (*(task.function))(task.arg);
 
         // 执行完更新busy
-        printf("thread 0x%x end working\n", (unsigned int)pthread_self());
-        printf("==================================\n\n");
         pthread_mutex_lock(&(pool->thread_counter));
         pool->busy_thr_num--;
         pthread_mutex_unlock(&(pool->thread_counter));

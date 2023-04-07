@@ -49,14 +49,13 @@ threadpool_t *threadpool_create(int min_thr_num, int max_thr_num, int queue_max_
         }
 
         if (pthread_mutexattr_init(&(pool->attr)) != 0)
-
         {
             printf("init locktype init failed\n");
             break;
         }
 
+        // 设置适应锁，得不到锁的进程必须等待
         if (pthread_mutexattr_settype(&(pool->attr), PTHREAD_MUTEX_ADAPTIVE_NP) != 0)
-
         {
             printf("init locktypeset failed\n");
             break;
@@ -69,10 +68,8 @@ threadpool_t *threadpool_create(int min_thr_num, int max_thr_num, int queue_max_
         }
 
         for (i = 0; i < min_thr_num; i++)
-        {
             pthread_create(&(pool->threads[i]), NULL, threadpool_thread, (void *)pool);
-            printf("start thread 0x%x...\n", (unsigned int)pool->threads[i]);
-        }
+
         pthread_create(&(pool->adjust_tid), NULL, threadpool_adjust, (void *)pool);
 
         return pool;

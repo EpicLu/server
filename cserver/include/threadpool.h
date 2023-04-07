@@ -11,7 +11,7 @@
 #include <errno.h>
 
 #define DEFAULT_TIME 7
-#define MIN_WAIT_TASK_NUM 10
+#define MIN_WAIT_TASK_NUM 64
 #define DEFAULT_THREAD_VARY 10
 #define true 1
 #define false 0

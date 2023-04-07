@@ -1,7 +1,7 @@
 #include "epollheap.h"
 
 /* 向 epoll监听的红黑树 添加一个文件描述符 */
-void event_add(int efd, int events, struct myevent_s *ev)
+void event_add(int efd, int events, struct myevent_t *ev)
 {
     struct epoll_event epv = {0, {0}};
     int op = 0;

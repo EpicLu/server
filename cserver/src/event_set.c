@@ -5,7 +5,7 @@
  * 注意：在封装这个事件的时候，为这个事件指明了回调函数，一般来说，一个fd只对一个特定的事件
  * 感兴趣，当这个事件发生的时候，就调用这个回调函数
  */
-void event_set(struct myevent_s *ev, int fd,
+void event_set(struct myevent_t *ev, int fd,
                void (*call_back)(int fd, int events, void *arg), void *arg)
 {
     ev->fd = fd;
