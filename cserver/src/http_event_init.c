@@ -1,8 +1,7 @@
-#include "epollheap.h"
-// #include "slave.h"
+#include "chttp.h"
 
 /*创建 socket, 初始化lfd */
-int event_init(int efd, short port, struct myevent_t *myevents)
+int http_event_init(int efd, short port, struct myevent_t *myevents)
 {
     int ret;
     int opt = 1;
@@ -48,7 +47,7 @@ int event_init(int efd, short port, struct myevent_t *myevents)
     }
 
     /* void event_set(struct myevent_t *ev, int fd, void (*call_back)(int, int, void *), void *arg);  */
-    event_set(&myevents[MAX_EVENTS], lfd, event_accept, &myevents[MAX_EVENTS]);
+    event_set(&myevents[MAX_EVENTS], lfd, http_event_accept, &myevents[MAX_EVENTS]);
 
     /* void event_add(int efd, int events, struct myevent_t *ev) */
     event_add(efd, EPOLLIN | EPOLLET, &myevents[MAX_EVENTS]); // 将lfd添加到监听树上，监听读事件

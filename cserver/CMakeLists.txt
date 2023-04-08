@@ -17,7 +17,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 # 设置可执行文件名
 set(TARGET server)
 # 设置库名
-set(PROJECT_LINK_LIBS threadpool event)
+set(PROJECT_LINK_LIBS threadpool http)
 
 # 设置头文件目录
 include_directories(include)
@@ -61,8 +61,8 @@ message(${PROJECT_LINK_LIBS})
 add_executable(${TARGET} ${MAIN_SOURCES})	
  
 # 生成可执行文件main，需要把连接库给带上，添加库文件名不需要指定文件路径，cmake会自己找
-target_link_libraries(event INTERFACE threadpool)
-target_link_libraries(event PUBLIC http)
+target_link_libraries(event PRIVATE threadpool)
+target_link_libraries(http PUBLIC event)
 #target_link_libraries(slave PUBLIC event)
 target_link_libraries(server ${PROJECT_LINK_LIBS}) 
 

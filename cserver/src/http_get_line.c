@@ -14,7 +14,7 @@ int http_get_line(int cfd, char *buf, int size)
         {
             if (c == '\r')
             {
-                n = recv(cfd, &c, 1, MSG_PEEK);
+                n = recv(cfd, &c, 1, MSG_PEEK); // MSG_PEEK表拷贝缓冲区的内容 不直接取
                 if ((n > 0) && (c == '\n'))
                     recv(cfd, &c, 1, 0);
                 else

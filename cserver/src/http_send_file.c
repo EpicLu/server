@@ -16,10 +16,9 @@ int http_send_file(int cfd, const char *file)
     while ((ret = read(fd, buf, sizeof(buf))) != 0)
     {
         ret = send(cfd, buf, ret, 0);
-        printf("bufsize: %d\n", ret);
         if (ret == -1)
         {
-            if (ret == EAGAIN || ret == EINTR)
+            if (ret == EAGAIN || ret == EINTR) // 阻塞状态不算发送错误
                 continue;
             else
             {

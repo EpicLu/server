@@ -11,7 +11,6 @@
 #include <fcntl.h>
 #include <time.h>
 #include <errno.h>
-#include "chttp.h"
 
 #define MAX_EVENTS 65535 /*监听上限*/
 // #define BUFLEN 4096      /*缓存区大小*/

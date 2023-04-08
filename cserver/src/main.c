@@ -1,5 +1,5 @@
 #include "threadpool.h"
-#include "epollheap.h"
+#include "chttp.h"
 
 void *process(void *arg); // 线程调用函数
 // 全局变量 定义在epollheap.h中 epoll_create的返回值
@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
     if (g_efd <= 0)
         printf("create efd in %s err %s\n", __func__, strerror(errno));
 
-    ret = event_init(g_efd, port, g_myevents); // 初始化监听socket
+    ret = http_event_init(g_efd, port, g_myevents); // 初始化监听socket
     if (ret == -1)
     {
         printf("event_init error!");
