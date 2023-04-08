@@ -8,7 +8,7 @@
 struct http_myevent_t
 {
     struct myevent_t mev;
-    pthread_mutex_t lock; // 封装myevent_t结构体配把锁 用于服务端先发报文再发数据
+    pthread_mutex_t lock; // 封装myevent_t结构体配把锁 用于服务端保证先发报文再发数据
 };
 
 // 全局变量

@@ -27,5 +27,7 @@ void http_send_file(int cfd, int events, void *arg)
         }
     }
 
+    // 发送完关闭
     close(fd);
+    close(cfd);
 }
