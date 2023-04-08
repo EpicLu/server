@@ -11,7 +11,11 @@ void http_send_msg(int cfd, int events, void *arg)
     len = send(cfd, ev->buf, ev->len, 0);
 
     if (len > 0)
-        ; // printf("send[cfd=%d], buf[%d]\n\nHTTP RESPOSE\n%s", cfd, len, ev->buf);
+    {
+        event_set(ev, cfd, http_recv_msg, ev);
+        event_add(g_efd, EPOLLIN | EPOLLET, ev);
+        // printf("send[cfd=%d], buf[%d]\n\nHTTP RESPOSE\n%s", cfd, len, ev->buf);
+    }
 
     else
     {

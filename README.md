@@ -1,6 +1,6 @@
 # cserver安装步骤
 
-1. 执行./configure
+1. cmake .
 
 2. make
 
