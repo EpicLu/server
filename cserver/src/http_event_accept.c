@@ -20,7 +20,7 @@ void http_event_accept(int lfd, int events, void *arg)
     {
         for (i = 0; i < MAX_EVENTS; i++) // 从全局数组g_events中找一个空闲元素，类似于select中找值为-1的元素
         {
-            if (g_myevents[i].status == 0)
+            if (g_hev[i].mev.status == 0)
                 break;
         }
         if (i == MAX_EVENTS) // 超出连接数上限
@@ -35,10 +35,10 @@ void http_event_accept(int lfd, int events, void *arg)
             break;
         }
         // 找到合适的节点之后，将其添加到监听树中，并监听读事件
-        event_set(&g_myevents[i], cfd, http_recv_msg, &g_myevents[i]);
-        event_add(g_efd, EPOLLIN | EPOLLET, &g_myevents[i]);
+        event_set(&g_hev[i].mev, cfd, http_recv_msg, &g_hev[i]);
+        event_add(g_efd, EPOLLIN | EPOLLET, &g_hev[i].mev);
     } while (0);
 
-    printf("new connect[%s:%d],[time:%ld],pos[%d]\n\n", inet_ntoa(cin.sin_addr), ntohs(cin.sin_port), g_myevents[i].last_active, i);
+    printf("new connect[%s:%d],[time:%ld],pos[%d]\n\n", inet_ntoa(cin.sin_addr), ntohs(cin.sin_port), g_hev[i].mev.last_active, i);
     return;
 }

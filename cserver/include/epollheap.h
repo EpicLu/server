@@ -29,9 +29,10 @@ struct myevent_t
     long last_active; // 记录每次加入红黑树 g_efd 的时间值
 };
 
-// 全局变量 定义在epollheap.h中 epoll_create的返回值
+// 全局变量 epoll_wait 的传入参数
 extern struct myevent_t g_myevents[MAX_EVENTS + 1];
-extern int g_efd; // 红黑树根
+// 全局变量 红黑树根 epoll_create的返回值
+extern int g_efd;
 
 void event_set(struct myevent_t *ev, int fd,
                void (*call_back)(int fd, int events, void *arg), void *arg);

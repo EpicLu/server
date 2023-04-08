@@ -1,5 +1,6 @@
 #include "chttp.h"
 
+// 获取http请求的文件类型
 const char *http_get_type(const char *file)
 {
     char *dot;

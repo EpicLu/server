@@ -6,7 +6,7 @@ void http_response(int cfd, char *file, void *arg)
 {
     if (strcmp(file, "/") == 0)
         strcpy(file, "index.html");
-    struct myevent_t *ev = (struct myevent_t *)arg;
+    struct http_myevent_t *hev = (struct http_myevent_t *)arg;
 
     struct stat sbuf;
     int ret = stat(file, &sbuf);
@@ -14,28 +14,27 @@ void http_response(int cfd, char *file, void *arg)
     {
         perror("stat error");
         // 返回404页面
-        http_response(cfd, "404.html", ev);
-        close(ev->fd);
+        http_response(cfd, "404.html", NULL);
+        close((hev->mev).fd);
     }
     // 是普通文件的话
     if (S_ISREG(sbuf.st_mode))
     {
+        int status = 200;
+        if (strcmp(file, "404.html") == 0)
+            status = 404;
         // 回发HTTP应答
-        sprintf(ev->buf, "HTTP/1.1 200 OK\r\n");
-        sprintf(ev->buf + strlen(ev->buf), "Content-Type: %s\r\n", http_get_type(file));
-        sprintf(ev->buf + strlen(ev->buf), "Content-Length: %ld\r\n", sbuf.st_size);
-        sprintf(ev->buf + strlen(ev->buf), "Connection: keep-alive\r\n");
-        sprintf(ev->buf + strlen(ev->buf), "\r\n");
-        ev->len = strlen(ev->buf);
-        http_send_msg(cfd, EPOLLIN | EPOLLET, ev);
+        int len = http_create_msg((hev->mev).buf, status, "OK", file, sbuf.st_size); // 生成应答报文存在buf中
+        (hev->mev).len = len;
+        event_set(&(hev->mev), cfd, http_send_msg, hev);
+        event_add(g_efd, EPOLLOUT | EPOLLET, &(hev->mev));
 
         // 回发文件数据
-        ret = http_send_file(cfd, file);
-        if (ret == -1)
-            perror("send error");
+        event_set(&(hev->mev), cfd, http_send_file, hev);
+        event_add(g_efd, EPOLLOUT | EPOLLET, &(hev->mev));
 
         // 发送完关闭
-        // close(ev->fd);
+        // close((hev->mev).fd);
     }
     // 是目录的话
 }

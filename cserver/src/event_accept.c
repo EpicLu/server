@@ -1,6 +1,8 @@
 #include "epollheap.h"
 // #include "slave.h"
 
+struct myevent_t g_myevents[MAX_EVENTS + 1];
+
 /*  当有文件描述符就绪, epoll返回, 调用该函数与客户端建立链接 */
 void event_accept(int lfd, int events, void *arg)
 {

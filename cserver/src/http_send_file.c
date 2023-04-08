@@ -1,8 +1,9 @@
 #include "chttp.h"
 
 // 给客户端发送请求的文件
-int http_send_file(int cfd, const char *file)
+void http_send_file(int cfd, int events, void *arg)
 {
+    const char *file = (char *)arg;
     char buf[BUFSIZ];
     int ret;
 
@@ -10,7 +11,6 @@ int http_send_file(int cfd, const char *file)
     if (fd == -1)
     {
         perror("file open error ");
-        return -1;
     }
 
     while ((ret = read(fd, buf, sizeof(buf))) != 0)
@@ -23,11 +23,9 @@ int http_send_file(int cfd, const char *file)
             else
             {
                 perror("send error ");
-                return -1;
             }
         }
     }
 
     close(fd);
-    return 0;
 }
