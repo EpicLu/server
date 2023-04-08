@@ -43,7 +43,7 @@ void *slave_thread(void *arg)
             // 此线程是负责处理IO的
             if (((sthr->events[i]).events & EPOLLIN) && (ev->events & EPOLLIN))
             {
-                if (ev->call_back == event_accept_conn)
+                if (ev->call_back == event_accept)
                     ev->call_back(ev->fd, ev->events, ev);
                 else
                     threadpool_add(sthr->thp, slave_process, (void *)ev);

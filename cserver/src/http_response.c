@@ -27,7 +27,7 @@ void http_response(int cfd, char *file, void *arg)
         sprintf(ev->buf + strlen(ev->buf), "Connection: keep-alive\r\n");
         sprintf(ev->buf + strlen(ev->buf), "\r\n");
         ev->len = strlen(ev->buf);
-        event_send_data(cfd, EPOLLIN | EPOLLET, ev);
+        http_send_msg(cfd, EPOLLIN | EPOLLET, ev);
 
         // 回发文件数据
         ret = http_send_file(cfd, file);

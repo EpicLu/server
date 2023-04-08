@@ -41,7 +41,7 @@ void event_add(int efd, int events, struct myevent_t *ev);
 
 void event_del(int efd, struct myevent_t *ev);
 
-void event_accept_conn(int lfd, int events, void *arg);
+void event_accept(int lfd, int events, void *arg);
 
 void event_recv_data(int fd, int events, void *arg);
 

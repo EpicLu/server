@@ -48,7 +48,7 @@ int event_init(int efd, short port, struct myevent_t *myevents)
     }
 
     /* void event_set(struct myevent_t *ev, int fd, void (*call_back)(int, int, void *), void *arg);  */
-    event_set(&myevents[MAX_EVENTS], lfd, event_accept_conn, &myevents[MAX_EVENTS]);
+    event_set(&myevents[MAX_EVENTS], lfd, event_accept, &myevents[MAX_EVENTS]);
 
     /* void event_add(int efd, int events, struct myevent_t *ev) */
     event_add(efd, EPOLLIN | EPOLLET, &myevents[MAX_EVENTS]); // 将lfd添加到监听树上，监听读事件

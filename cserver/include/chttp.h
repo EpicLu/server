@@ -12,4 +12,8 @@ const char *http_get_type(const char *file);
 
 int http_send_file(int cfd, const char *file);
 
+void http_recv_msg(int cfd, int events, void *arg);
+
+void http_send_msg(int cfd, int events, void *arg);
+
 #endif

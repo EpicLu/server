@@ -88,9 +88,10 @@ int main(int argc, char *argv[])
             // 如果监听的是写事件，改回读事件
             else if ((events[i].events & EPOLLOUT) && (ev->events & EPOLLOUT))
             {
-                event_set(ev, ev->fd, event_recv_data, ev); // 将该fd的回调函数改为recvdata
-                event_add(g_efd, EPOLLIN | EPOLLET, ev);    // 重新添加到红黑树上，设为监听读事件
-                //  threadpool_add(thp, process, (void *)ev);// 如果监听的是写事件，并返回的是写事件
+                // event_del(g_efd, ev); // 从红黑树g_efd中移除
+                // event_set(ev, ev->fd, http_recv_msg, ev); // 将该fd的回调函数改为recvmsg
+                // event_add(g_efd, EPOLLIN | EPOLLET, ev);    // 重新添加到红黑树上，设为监听读事件
+                threadpool_add(thp, process, (void *)ev); // 如果监听的是写事件，并返回的是写事件
             }
         }
     }
