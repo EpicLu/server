@@ -6,6 +6,8 @@ void event_recv_data(int cfd, int events, void *arg)
     struct myevent_t *ev = (struct myevent_t *)arg;
     int len;
 
+    event_del(g_efd, ev); // 从红黑树g_efd中移除
+
     len = recv(cfd, ev->buf, sizeof(ev->buf), 0); // 读取客户端发过来的数据
 
     if (len > 0)

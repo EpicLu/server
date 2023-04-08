@@ -39,6 +39,6 @@ void http_event_accept(int lfd, int events, void *arg)
         event_add(g_efd, EPOLLIN | EPOLLET, &g_hev[i].mev);
     } while (0);
 
-    printf("new connect[%s:%d],[time:%ld],pos[%d]\n\n", inet_ntoa(cin.sin_addr), ntohs(cin.sin_port), g_hev[i].mev.last_active, i);
+    // printf("new connect[%s:%d],[time:%ld],pos[%d]\n\n", inet_ntoa(cin.sin_addr), ntohs(cin.sin_port), g_hev[i].mev.last_active, i);
     return;
 }

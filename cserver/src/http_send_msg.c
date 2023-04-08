@@ -19,6 +19,6 @@ void http_send_msg(int cfd, int events, void *arg)
     {
         // close(ev->fd); // 关闭链接
         // 没想好发送数据失败的动作 先保持连接等对方继续请求
-        // printf("send[cfd=%d] error %s\n", cfd, strerror(errno));
+        printf("sendmsg[cfd=%d] error %s\n", cfd, strerror(errno));
     }
 }

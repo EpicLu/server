@@ -3,7 +3,7 @@
 // 给客户端发送请求的文件
 void http_send_file(int cfd, int events, void *arg)
 {
-    const char *file = (char *)arg;
+    char *file = (char *)arg;
     char buf[BUFSIZ];
     int ret;
 
@@ -22,12 +22,15 @@ void http_send_file(int cfd, int events, void *arg)
                 continue;
             else
             {
-                perror("send error ");
+                perror("send file error ");
+                break;
             }
         }
     }
 
+    // file是在http_respose中malloc创建的 用完后要删除
+    free(file);
     // 发送完关闭
     close(fd);
-    close(cfd);
+    // close(cfd);
 }

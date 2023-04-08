@@ -16,10 +16,11 @@ void http_recv_msg(int cfd, int events, void *arg)
 
     if (len > 0)
     {
-        char method[16], path[256], protocol[16];
+        char *path = malloc(sizeof(char) * 256);
+        char method[16], protocol[16];
 
         sscanf(line, "%[^ ] %[^ ] %[^ ]", method, path, protocol); // 获取HTTP请求的方法
-        // printf("%s %s %s\n", method, path, protocol); // 打印HTTP请求的方法
+        // printf("%s %s %s\n", method, path, protocol);              // 打印HTTP请求的方法
 
         // 获得HTTP请求其他信息
         /*

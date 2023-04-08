@@ -9,6 +9,16 @@ int g_efd;
 // 主线程负责监听事件
 int main(int argc, char *argv[])
 {
+    /*
+    char buf[512];
+    // 使用getcwd获取启动目录
+    if (NULL == getcwd(buf, sizeof(buf)))
+    {
+        fprintf(stderr, "getcwd error: %s", strerror(errno));
+        exit(1);
+    }
+    printf("current work path: %s\n", buf);
+    */
     // 检查运行程序传入的参数
     if (argc < 3)
         printf("./server port path\n");
@@ -32,7 +42,7 @@ int main(int argc, char *argv[])
     ret = http_event_init(g_efd, port, g_hev); // 初始化监听socket
     if (ret == -1)
     {
-        printf("event_init error!");
+        printf("event_init error!\n");
         exit(-1);
     }
     printf("server running:port[%d]\n", port);
@@ -82,11 +92,11 @@ int main(int argc, char *argv[])
             // 这里epoll_wait返回的时候，同样会返回对应fd的myevents_t类型的指针
             struct myevent_t *ev = (struct myevent_t *)events[i].data.ptr;
 
-            // 如果监听的是读事件，并返回的是读事件
+            // 如果监听的是读事件
             if ((events[i].events & EPOLLIN) && (ev->events & EPOLLIN))
                 threadpool_add(thp, process, (void *)ev);
-            // 如果监听的是写事件，改回读事件
-            else if ((events[i].events & EPOLLOUT) && (ev->events & EPOLLOUT))
+            // 如果监听的是写事件，最后一个判断是因为epoll监听到后会立即触发一次写事件
+            else if ((events[i].events & EPOLLOUT) && (ev->events & EPOLLOUT) && ev->call_back != http_recv_msg)
             {
                 // event_del(g_efd, ev); // 从红黑树g_efd中移除
                 // event_set(ev, ev->fd, http_recv_msg, ev); // 将该fd的回调函数改为recvmsg

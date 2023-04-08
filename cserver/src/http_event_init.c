@@ -40,6 +40,7 @@ int http_event_init(int efd, short port, struct http_myevent_t *hev)
     }
 
     ret = setsockopt(lfd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)); // 端口复用
+
     if (ret == -1)
     {
         perror("setsockopt error ");
