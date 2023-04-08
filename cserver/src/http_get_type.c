@@ -38,12 +38,18 @@ const char *http_get_type(const char *file)
         return "application/ogg";
     if (strcmp(dot, ".pac") == 0)
         return "application/x-ns-proxy-autoconfig";
-    if (strcmp(dot, ".ttf") == 0)
+    if (strcmp(dot, ".tof") == 0 || strcmp(dot, ".ttf") == 0 || strcmp(dot, ".woff2") == 0 || strcmp(dot, ".woff") == 0)
         return "application/octet-stream";
-    if (strcmp(dot, ".woff") == 0 || strcmp(dot, ".woff2") == 0)
-        return "application/x-font-woff";
+    /*if (strcmp(dot, ".woff") == 0)
+        return "application/x-font-woff";*/
     if (strcmp(dot, ".svg") == 0)
         return "image/svg+xml";
+    if (strcmp(dot, ".js") == 0)
+        return "application/x-javascript";
+    /*if (strcmp(dot, ".woff2") == 0)
+        return "application/font-woff2";*/
+    if (strcmp(dot, ".ico") == 0)
+        return "image/ico";
 
     return "text/plain; charset=utf-8";
 }

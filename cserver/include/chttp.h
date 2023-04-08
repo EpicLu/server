@@ -23,7 +23,7 @@ int http_get_line(int cfd, char *buf, int size);
 
 void http_event_accept(int lfd, int events, void *arg);
 
-void http_send_file(int cfd, int events, void *arg);
+void http_send_file(int cfd, void *arg);
 
 void http_recv_msg(int cfd, int events, void *arg);
 

@@ -21,7 +21,6 @@ void http_response(int cfd, char *file, void *arg)
     if (S_ISREG(sbuf.st_mode))
     {
         int len;
-        // 修改一下文件名传参方式 22时35分
         if (strcmp(file, "404.html") == 0)
             len = http_create_msg((hev->mev).buf, 404, "Not Found", file, sbuf.st_size);
         else
@@ -35,8 +34,7 @@ void http_response(int cfd, char *file, void *arg)
         // 回发文件数据
         pthread_mutex_lock(&(hev->lock));   // 等上面的回调函数发送完报文完解锁
         pthread_mutex_unlock(&(hev->lock)); // 拿到锁立即解锁 因为报文已发送完 不会有任何事件会占用写缓冲
-        event_set(&(hev->mev), cfd, http_send_file, file);
-        event_add(g_efd, EPOLLOUT | EPOLLET, &(hev->mev));
+        http_send_file(cfd, file);
     }
     // 是目录的话
 }
