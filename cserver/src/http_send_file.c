@@ -36,5 +36,5 @@ void http_send_file(int cfd, void *arg)
 
     // 发送完关闭
     close(fd);
-    // close(cfd);
+    close(cfd);
 }
