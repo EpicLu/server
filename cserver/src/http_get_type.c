@@ -50,6 +50,8 @@ const char *http_get_type(const char *file)
         return "application/font-woff2";*/
     if (strcmp(dot, ".ico") == 0)
         return "image/ico";
+    if (strcmp(dot, ".mp4"))
+        return "video/mp4";
 
     return "text/plain; charset=utf-8";
 }
