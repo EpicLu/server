@@ -1,1 +1,0 @@
-/usr/bin/cc   -lpthread -g    CMakeFiles/server.dir/src/main.o CMakeFiles/server.dir/src/process.o  -o bin/server -rdynamic lib/libthreadpool.so.1.2 lib/libhttp.so.1.2 lib/libevent.so.1.2 lib/libthreadpool.so.1.2 -Wl,-rpath,/home/lpc/server/cserver/lib 

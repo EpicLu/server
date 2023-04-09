@@ -25,8 +25,6 @@ int http_event_init(int efd, short port, struct http_myevent_t *hev)
     sin.sin_addr.s_addr = INADDR_ANY;
     sin.sin_port = htons(port);
 
-    ret = setsockopt(lfd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)); // 端口复用
-
     ret = bind(lfd, (struct sockaddr *)&sin, sizeof(sin));
     if (ret == -1)
     {
@@ -41,6 +39,7 @@ int http_event_init(int efd, short port, struct http_myevent_t *hev)
         return -1;
     }
 
+    ret = setsockopt(lfd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)); // 端口复用
 
     if (ret == -1)
     {
