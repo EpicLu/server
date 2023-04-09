@@ -4,6 +4,9 @@ project(server)
 #set(CMAKE_BUILD_TYPE Release)
 set(CMAKE_BUILD_TYPE Debug)
 
+# 配置编译选项
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -lpthread")
+
 # 设置二进制文件目录 默认为当前目录的build -> ./build
 # SET(PROJECT_BINARY_DIR ../)
 # 设置静态库文件目录
