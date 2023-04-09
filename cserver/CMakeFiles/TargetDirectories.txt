@@ -1,0 +1,4 @@
+/home/lpc/server/cserver/CMakeFiles/event.dir
+/home/lpc/server/cserver/CMakeFiles/http.dir
+/home/lpc/server/cserver/CMakeFiles/server.dir
+/home/lpc/server/cserver/CMakeFiles/threadpool.dir
