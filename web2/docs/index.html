@@ -36,7 +36,7 @@
     	</ul> -->
     	<ul class="navbar-nav ml-auto align-items-center">
     		<li class="nav-item">
-    		<a class="nav-link active" href="index.html">酒</a>
+    		<a class="nav-link active" href="#">酒</a>
     		</li>
     		<li class="nav-item">
     		<a class="nav-link" href="post.html?post-image=assets/img/photo-014.jpg&post-title=低调">故事</a>
@@ -305,7 +305,34 @@
 
     <script src="assets/js/app.js"></script>
     <script src="assets/js/theme.js"></script>
-	<script src="assets/js/image.js"></script>
+	<script>
+		function goPost(id){
+   			const image = document.getElementById(`post-image${id}`);
+    		const title = document.getElementById(`post-title${id}`);
+
+    		const src = image.src;
+    		const text = title.textContent;
+    
+    		const query = `?post-image=${src}&post-title=${text}`;
+
+    		location.search = query;
+    		location.href = `post.html${query}`;
+		}
+	</script>
+	<script>
+		$(function () {
+    		$(".card").click(function () {
+
+        		$("#big-img").attr("src", $(this.getElementsByClassName("card-img")).attr("src"));//设置#big-img元素的src属性
+
+        		$("#enlarge-div").fadeIn("fast");
+
+        		$("#enlarge-div").click(function () {
+            		$(this).fadeOut("fast");
+        		});
+    		});
+		});
+	</script>
     
     <footer class="footer pt-5 pb-5 text-center">
         

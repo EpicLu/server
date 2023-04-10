@@ -13,13 +13,17 @@ void http_recv_msg(int cfd, int events, void *arg)
     len = http_get_line(cfd, line, sizeof(line)); // 读取浏览器发过来的数据
     while (http_get_line(cfd, buf, sizeof(buf)) != 1)
         ; // 把缓冲区剩余数据读完 读到\r\n
+    printf("%s\n", line);
 
     if (len > 0)
     {
         char method[16], path[256], protocol[16];
 
-        sscanf(line, "%[^ ] %[^ ] %[^ ]", method, path, protocol); // 获取HTTP请求的方法
-        printf("%s %s %s\n", method, path, protocol);              // 打印HTTP请求的方法
+        if (len > 64)
+            sscanf(line, "%[^ ] %[^\\?]%*[^ ] %[^ ]", method, path, protocol); // 获取HTTP请求的方法
+        else
+            sscanf(line, "%[^ ] %[^ ] %[^ ]", method, path, protocol);
+        printf("%s %s %s\n", method, path, protocol); // 打印HTTP请求的方法
 
         // 获得HTTP请求其他信息
         /*

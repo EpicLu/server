@@ -275,7 +275,34 @@
 
     <script src="assets/js/app.js"></script>
     <script src="assets/js/theme.js"></script>
-	<script src="assets/js/image.js"></script>
+	<script>
+		function goPost(id){
+   			const image = document.getElementById(`post-image${id}`);
+    		const title = document.getElementById(`post-title${id}`);
+
+    		const src = image.src;
+    		const text = title.textContent;
+    
+    		const query = `?post-image=${src}&post-title=${text}`;
+
+    		location.search = query;
+    		location.href = `post.html${query}`;
+		}
+	</script>
+	<script>
+		$(function () {
+    		$(".card").click(function () {
+
+        		$("#big-img").attr("src", $(this.getElementsByClassName("card-img")).attr("src"));
+
+        		$("#enlarge-div").fadeIn("fast");
+
+        		$("#enlarge-div").click(function () {
+            		$(this).fadeOut("fast");
+        		});
+    		});
+		});
+	</script>
     
     <footer class="footer pt-5 pb-5 text-center">
         
