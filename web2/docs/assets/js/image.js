@@ -1,4 +1,4 @@
-//跳转对应图片的post页面
+//点击放大
 $(function () {
     $(".card").click(function () {
 
@@ -11,7 +11,7 @@ $(function () {
         });
     });
 });
-//点击放大图片
+//跳转
 function goPost(id){
     const image = document.getElementById(`post-image${id}`);
     const title = document.getElementById(`post-title${id}`);
