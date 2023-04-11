@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
     }
 
     // 创建线程池
-    threadpool_t *thp = threadpool_create(32, 128, 128);
+    threadpool_t *thp = threadpool_create(64, 1024, 512);
 
     g_efd = epoll_create(MAX_EVENTS + 1); // 创建红黑树,返回给全局 g_efd
     if (g_efd <= 0)
@@ -56,10 +56,10 @@ int main(int argc, char *argv[])
     struct epoll_event events[MAX_EVENTS + 1];
 
     int i;
-    // int checkpos = 0;
+    int checkpos = 0;
     while (1)
     {
-        /*
+        
         // 超时设置
         long now = time(NULL);
         for (i = 0; i < 100; i++)
@@ -77,7 +77,7 @@ int main(int argc, char *argv[])
                 event_del(g_efd, &g_myevents[checkpos]);
             }
         }
-        */
+        
         // 调用eppoll_wait等待接入的客户端事件,epoll_wait传出的是满足监听条件的那些fd的struct epoll_event类型
         int nfd = epoll_wait(g_efd, events, MAX_EVENTS + 1, 0);
 
