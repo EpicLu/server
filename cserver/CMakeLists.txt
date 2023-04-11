@@ -5,7 +5,7 @@ project(server)
 set(CMAKE_BUILD_TYPE Debug)
 
 # 配置编译选项
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -lpthread")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -lpthread -lz")
 
 # 设置二进制文件目录 默认为当前目录的build -> ./build
 # SET(PROJECT_BINARY_DIR ../)
@@ -66,6 +66,7 @@ add_executable(${TARGET} ${MAIN_SOURCES})
 # 生成可执行文件main，需要把连接库给带上，添加库文件名不需要指定文件路径，cmake会自己找
 target_link_libraries(event PRIVATE threadpool)
 target_link_libraries(http PUBLIC event)
+target_link_libraries(http PRIVATE /usr/local/lib/libz.so)
 #target_link_libraries(slave PUBLIC event)
 target_link_libraries(server ${PROJECT_LINK_LIBS}) 
 

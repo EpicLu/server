@@ -3,6 +3,7 @@
 
 #include <sys/stat.h>
 #include <pthread.h>
+#include <zlib.h>
 #include "epollheap.h"
 
 struct http_myevent_t
@@ -15,15 +16,17 @@ struct http_myevent_t
 extern struct http_myevent_t g_hev[MAX_EVENTS + 1];
 
 int http_create_msg(char *buf, int no, const char *status,
-                    const char *file, long size);
+                    const char *file, uLong size);
 
 int http_event_init(int efd, short port, struct http_myevent_t *hev);
+
+int http_compress(void *arg, unsigned char *buf, uLong *buflen);
 
 int http_get_line(int cfd, char *buf, int size);
 
 void http_event_accept(int lfd, int events, void *arg);
 
-void http_send_file(int cfd, void *arg);
+void http_send_file(int cfd, void *arg, char *buf);
 
 void http_recv_msg(int cfd, int events, void *arg);
 

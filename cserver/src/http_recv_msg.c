@@ -6,14 +6,13 @@ void http_recv_msg(int cfd, int events, void *arg)
     struct http_myevent_t *hev = (struct http_myevent_t *)arg;
     int len;
     char line[1024] = {0};
-    char buf[BUFSIZ] = {0};
+    char buf[1024] = {0};
 
     event_del(g_efd, &(hev->mev)); // 从红黑树g_efd中移除
 
     len = http_get_line(cfd, line, sizeof(line)); // 读取浏览器发过来的数据
     while (http_get_line(cfd, buf, sizeof(buf)) != 1)
         ; // 把缓冲区剩余数据读完 读到\r\n
-    printf("%s\n", line);
 
     if (len > 0)
     {

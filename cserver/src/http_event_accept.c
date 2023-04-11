@@ -34,6 +34,13 @@ void http_event_accept(int lfd, int events, void *arg)
             printf("%s: fcntl nonblocking failed, %s\n", __func__, strerror(errno));
             break;
         }
+
+        long opt = 16 * 1204 * 1204;
+        socklen_t optlen = sizeof(int);
+        setsockopt(cfd, SOL_SOCKET, SO_SNDBUF, &opt, sizeof(opt));
+        getsockopt(cfd, SOL_SOCKET, SO_SNDBUF, &opt, &optlen);
+        printf("===============================================================sendbufsize = %ld\n", opt);
+
         // 找到合适的节点之后，将其添加到监听树中，并监听读事件
         event_set(&g_hev[i].mev, cfd, http_recv_msg, &g_hev[i]);
         event_add(g_efd, EPOLLIN | EPOLLET, &g_hev[i].mev);
