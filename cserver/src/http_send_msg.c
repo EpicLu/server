@@ -13,7 +13,7 @@ void http_send_msg(int cfd, int events, void *arg)
     pthread_mutex_unlock(&(hev->lock)); // 信息发送完后解锁
 
     if (len > 0)
-        printf("send[cfd=%d], buf[%d]\n\nHTTP RESPOSE\n%s", cfd, len, (hev->mev).buf);
+        printf("send[cfd=%d], buf[%d]\nHTTP RESPOSE\n%s", cfd, len, (hev->mev).buf);
     else
     {
         // close(ev->fd); // 关闭链接

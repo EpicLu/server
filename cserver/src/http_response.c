@@ -24,17 +24,26 @@ void http_response(int cfd, char *file, void *arg)
 
         pthread_mutex_lock(&(hev->lock));   // 等上面的回调函数发送完报文完解锁
         pthread_mutex_unlock(&(hev->lock)); // 拿到锁立即解锁 因为报文已发送完 不会有任何事件会占用写缓冲
-        http_send_file(cfd, "404.html");
+        http_send_file(cfd, "404.html", NULL);
 
         close((hev->mev).fd);
     }
     // 是普通文件的话
     if (S_ISREG(sbuf.st_mode))
     {
-        int len;
+        int len, ret;
 
-        len = http_create_msg((hev->mev).buf, 200, "OK", file, sbuf.st_size);
+        // 压缩文件
+        uLong buflen = compressBound((uLong)sbuf.st_size);                              // 压缩后的文件长度
+        unsigned char *buf = (unsigned char *)malloc(sizeof(unsigned char) * (buflen)); // 存放压缩后的数据
+        ret = http_compress(file, buf, &buflen);
+        if (ret == -1)
+            return;
+        // 创建HTTP应答报文
+        len = http_create_msg((hev->mev).buf, 200, "OK", file, buflen);
         (hev->mev).len = len;
+
+        free(buf);
         // 回发HTTP应答
         pthread_mutex_lock(&(hev->lock)); // 锁住回调函数
         event_set(&(hev->mev), cfd, http_send_msg, hev);
@@ -43,7 +52,7 @@ void http_response(int cfd, char *file, void *arg)
         // 回发文件数据
         pthread_mutex_lock(&(hev->lock));   // 等上面的回调函数发送完报文完解锁
         pthread_mutex_unlock(&(hev->lock)); // 拿到锁立即解锁 因为报文已发送完 不会有任何事件会占用写缓冲
-        http_send_file(cfd, file);
+        http_send_file(cfd, file, NULL);
     }
     // 是目录的话
 }

@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
     }
 
     // 创建线程池
-    threadpool_t *thp = threadpool_create(64, 1024, 512);
+    threadpool_t *thp = threadpool_create(32, 128, 128);
 
     g_efd = epoll_create(MAX_EVENTS + 1); // 创建红黑树,返回给全局 g_efd
     if (g_efd <= 0)

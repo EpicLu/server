@@ -41,8 +41,7 @@ int http_event_init(int efd, short port, struct http_myevent_t *hev)
         return -1;
     }
 
-
-    if (ret == -1)
+        if (ret == -1)
     {
         perror("setsockopt error ");
         return -1;

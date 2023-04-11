@@ -42,10 +42,10 @@ EQUALS = =
 CMAKE_EDIT_COMMAND = /usr/bin/ccmake
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/lpc/server/cserver
+CMAKE_SOURCE_DIR = /home/lpc/webserver/server/cserver
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/lpc/server/cserver
+CMAKE_BINARY_DIR = /home/lpc/webserver/server/cserver
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -72,9 +72,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/lpc/server/cserver/CMakeFiles /home/lpc/server/cserver/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/lpc/webserver/server/cserver/CMakeFiles /home/lpc/webserver/server/cserver/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/lpc/server/cserver/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/lpc/webserver/server/cserver/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -257,6 +257,21 @@ src/event_set.i:
 src/event_set.s:
 	$(MAKE) -f CMakeFiles/event.dir/build.make CMakeFiles/event.dir/src/event_set.s
 .PHONY : src/event_set.s
+
+# target to build an object file
+src/http_compress.o:
+	$(MAKE) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/src/http_compress.o
+.PHONY : src/http_compress.o
+
+# target to preprocess a source file
+src/http_compress.i:
+	$(MAKE) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/src/http_compress.i
+.PHONY : src/http_compress.i
+
+# target to generate assembly for a file
+src/http_compress.s:
+	$(MAKE) -f CMakeFiles/http.dir/build.make CMakeFiles/http.dir/src/http_compress.s
+.PHONY : src/http_compress.s
 
 # target to build an object file
 src/http_create_msg.o:
@@ -546,6 +561,9 @@ help:
 	@echo "... src/event_set.o"
 	@echo "... src/event_set.i"
 	@echo "... src/event_set.s"
+	@echo "... src/http_compress.o"
+	@echo "... src/http_compress.i"
+	@echo "... src/http_compress.s"
 	@echo "... src/http_create_msg.o"
 	@echo "... src/http_create_msg.i"
 	@echo "... src/http_create_msg.s"

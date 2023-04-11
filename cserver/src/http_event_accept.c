@@ -34,13 +34,12 @@ void http_event_accept(int lfd, int events, void *arg)
             printf("%s: fcntl nonblocking failed, %s\n", __func__, strerror(errno));
             break;
         }
-        
-        // 修改写缓冲大小
-        long opt = 500*1204*1204;
+
+        long opt = 500 * 1204 * 1204;
         socklen_t optlen = sizeof(int);
-        setsockopt(cfd,SOL_SOCKET,SO_SNDBUF,&opt,sizeof(opt));
-        getsockopt(cfd,SOL_SOCKET,SO_SNDBUF,&opt,&optlen);
-        printf("===============================================================sendbufsize = %d\n", opt);
+        setsockopt(cfd, SOL_SOCKET, SO_SNDBUF, &opt, sizeof(opt));
+        getsockopt(cfd, SOL_SOCKET, SO_SNDBUF, &opt, &optlen);
+        printf("===============================================================sendbufsize = %ld\n", opt);
 
         // 找到合适的节点之后，将其添加到监听树中，并监听读事件
         event_set(&g_hev[i].mev, cfd, http_recv_msg, &g_hev[i]);

@@ -6,7 +6,7 @@ void http_recv_msg(int cfd, int events, void *arg)
     struct http_myevent_t *hev = (struct http_myevent_t *)arg;
     int len;
     char line[1024] = {0};
-    char buf[BUFSIZ] = {0};
+    char buf[1024] = {0};
 
     event_del(g_efd, &(hev->mev)); // 从红黑树g_efd中移除
 
@@ -22,7 +22,7 @@ void http_recv_msg(int cfd, int events, void *arg)
             sscanf(line, "%[^ ] %[^\\?]%*[^ ] %[^ ]", method, path, protocol); // 获取HTTP请求的方法
         else
             sscanf(line, "%[^ ] %[^ ] %[^ ]", method, path, protocol);
-        printf("%s %s %s\n", method, path, protocol);              // 打印HTTP请求的方法
+        printf("%s %s %s\n", method, path, protocol); // 打印HTTP请求的方法
 
         // 获得HTTP请求其他信息
         /*
