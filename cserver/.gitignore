@@ -1,4 +1,6 @@
 build
 .vscode
 lib
-.zip
+*.zip
+CMakeCache.txt
+cmake_install.cmake
